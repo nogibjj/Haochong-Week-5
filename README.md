@@ -20,30 +20,76 @@ Important file:
 
 ## Check format and test errors
 1. Format code with Python black by using `make format`
+
 2. Lint code with Ruff by using `make lint`. 
+
+Got single line too long for some files, which is easy to fix.
+
+![Alt text](<截屏2023-09-28 下午1.14.01.png>)
 
 3. Test code by using `make test`
 
-In this project, I failed lots of times before I passed all of them. At the beginning, I tried to add a file with `.ipynb` directly in my repo. Nevertheless, it shown as "invalid notebook". After consulting TA, I understanded that we can't use jupyter notebook in this way. Since setting up the environment on github would be redundant, I created a jupyter notebook locally, git clone my repo to local and drag the notebook into my repo then update my repo. Finally, I got vaild notebook.
+In this project, I got the first failure while creating database. I use the name of my csv file directly and got this:
 
-<img width="169" alt="截屏2023-09-16 上午1 43 18" src="https://github.com/nogibjj/Individual-Project-1/assets/89813704/c67ffd16-68ff-450f-9468-464f5b6bccdd">
+![Alt text](<截屏2023-09-27 下午11.54.39.png>)
 
-
-When I tried to plot the distribution of `TotalConfirmed` by `Date`, after I groupby the dataset by `Date`, I met the second problem: dates were not shown under x-axis. After print the type of Date column, I found out that the type is str. Hence, I use package `datetime` to convert the type into date, then I fixed the problem.
-
-<img width="552" alt="截屏2023-09-16 上午1 52 53" src="https://github.com/nogibjj/Individual-Project-1/assets/89813704/563d977d-2618-4620-95b3-2074bfb6e286">
+I was confused at first, and you can see I create several ways but all failed. After google this I noticed that it was because I use the number as the fisrt letter of my database, which is not allowed. I fixed this by delete "25".
 
 
-When I tried to do the liner regression, I met the third problem: both date type data and row index are not able to do liner regression. Therefore, I first reset the Date index and then I added a new column into the dataframe as Date index, use that column and `TotalConfirmed` to do liner regression. Finally, I got what I want.
+I didn't meet too many trouble for other parts.
 
-<img width="281" alt="截屏2023-09-16 上午1 54 59" src="https://github.com/nogibjj/Individual-Project-1/assets/89813704/bfbcedd3-05f3-4ec3-a928-e9b009abe436">
+I first use `connect` to connect to my database:
+
+### connect
+```python
+def connect():
+    conn = sqlite3.connect('ktopomapseriesindexDB.db')
+    c = conn.cursor()
+    return c, conn
+```
+
+For the "CRUD" part:
+
+### create
+```python
+def create():
+    c.execute('''CREATE TABLE IF NOT EXISTS indexs (
+            name_cap_2 TEXT,
+            num_rom_ca TEXT PRIMARY KEY,
+            Shape_Leng INTEGER,
+            Shape_Area INTEGER
+        )''')
+```
+
+### read
+```python
+def read(c):
+    c.execute("SELECT * FROM indexs")
+    indexs = c.fetchall()
+    return indexs
+```
+
+### update (for Shape_Leng, same for other columns)
+```python
+def update_Shape_Leng(c, conn, Shape_Leng, num_rom_ca):
+    c.execute("UPDATE indexs SET Shape_Leng = ? WHERE  num_rom_ca = ?", 
+              (Shape_Leng, num_rom_ca))
+    conn.commit()
+```
+
+### delete
+```python
+def delete(c, conn, num_rom_ca):
+    c.execute("DELETE FROM indexs WHERE  num_rom_ca = ?", (num_rom_ca,))
+    conn.commit()
+```
+
+For the test, I didn't test for function like `connect`, since they are just for the connection. If they can't work, all other part won't be able to run, which means they are definitely fine.
+
+I write test in `test_main.py` for CRUD functions. I use function`fetchone()` to fetch the row I want, and then compare the result with `None` to see whether the operation happened. I got them all pass:
 
 
-After fixing all of these, I got all pass.
 
-`test_lib.py` and `test_script.py`:
-
-<img width="653" alt="截屏2023-09-16 上午1 58 01" src="https://github.com/nogibjj/Individual-Project-1/assets/89813704/65e3467c-c17a-48f4-8256-f2edfebe8e91">
-
+![Alt text](<截屏2023-09-28 下午1.15.28.png>)
 
 

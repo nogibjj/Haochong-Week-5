@@ -48,12 +48,12 @@ def load(dataset="/Users/xiahaochong/Desktop/IDS 706 DES/"\
 """CRUD"""
 
 def connect():
+    # Connect to my DB
     conn = sqlite3.connect('ktopomapseriesindexDB.db')
     c = conn.cursor()
     return c, conn
 
 def create(c):
-    # Connect to my DB
     c.execute('''CREATE TABLE IF NOT EXISTS indexs (
                 name_cap_2 TEXT,
                 num_rom_ca TEXT PRIMARY KEY,
