@@ -4,6 +4,10 @@ Extract a dataset from a URL
 food dataset
 """
 import requests
+import sqlite3
+import csv
+import os
+
 
 def extract(url="https://catalogue.data.wa.gov.au/dataset/f39087e2-2885-473e-bc62-ca610cd94340/resource/96c892f3-b387-410c-80d0-e4dcec68e6f2/download/25ktopomapseriesindex.csv", 
             file_path="/Users/xiahaochong/Desktop/IDS 706 DES/Haochong-Week-5/25ktopomapseriesindex.csv"):
@@ -15,12 +19,7 @@ def extract(url="https://catalogue.data.wa.gov.au/dataset/f39087e2-2885-473e-bc6
 
 """
 Transforms and Loads data into the local SQLite3 database
-Example:
-,general name,count_products,ingred_FPro,avg_FPro_products,avg_distance_root,ingred_normalization_term,semantic_tree_name,semantic_tree_node
 """
-import sqlite3
-import csv
-import os
 
 #load the csv file and insert into a new sqlite3 database
 def load(dataset="/Users/xiahaochong/Desktop/IDS 706 DES/Haochong-Week-5/25ktopomapseriesindex.csv"):
@@ -61,7 +60,11 @@ def create(c):
             )''')
     
 def insert(c, conn, name_cap_2, num_rom_ca, Shape_Leng, Shape_Area):
-    c.execute("INSERT INTO indexs (name_cap_2, num_rom_ca, Shape_Leng, Shape_Area) VALUES (?, ?, ?, ?)", (name_cap_2, num_rom_ca, Shape_Leng, Shape_Area))
+    c.execute("""INSERT INTO indexs (name_cap_2, 
+              num_rom_ca, 
+              Shape_Leng, 
+              Shape_Area) VALUES (?, ?, ?, ?)""", 
+              (name_cap_2, num_rom_ca, Shape_Leng, Shape_Area))
     conn.commit()
 
 def read(c):
@@ -70,7 +73,8 @@ def read(c):
     return indexs
 
 def update_Shape_Leng(c, conn, Shape_Leng, num_rom_ca):
-    c.execute("UPDATE indexs SET Shape_Leng = ? WHERE  num_rom_ca = ?", (Shape_Leng, num_rom_ca))
+    c.execute("UPDATE indexs SET Shape_Leng = ? WHERE  num_rom_ca = ?", 
+              (Shape_Leng, num_rom_ca))
     conn.commit()
 
 def delete(c, conn, num_rom_ca):
@@ -91,4 +95,7 @@ def query2(c):
     q_indexs = c.fetchall()
     print("indexs have Shape_Leng less than 56140:")
     for i in q_indexs:
-        print(f"name_cap_2: {i[0]}, num_rom_ca: {i[1]}, Shape_Leng: {i[2]}, Shape_Area: {i[3]}")
+        print(f"""name_cap_2: {i[0]}, 
+              num_rom_ca: {i[1]}, 
+              Shape_Leng: {i[2]}, 
+              Shape_Area: {i[3]}""")

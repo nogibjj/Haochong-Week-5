@@ -74,12 +74,6 @@ def test_update_Shape_Leng():
 def test_delete():
     insert(c, conn, "B", "keyb", 2, 2)
     delete(c, conn, "keyb")
-    data_to_check = {
-        'name_cap_2': 'B',
-        'num_rom_ca': 'keyb',
-        'Shape_Leng': 2,
-        'Shape_Area': 2
-    }
     query = """
         SELECT * 
         FROM indexs 
