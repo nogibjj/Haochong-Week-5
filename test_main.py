@@ -3,9 +3,6 @@ Test goes here
 
 """
 
-from mylib.lib import extract
-from mylib.lib import load
-from mylib.lib import connect
 from mylib.lib import create
 from mylib.lib import read
 from mylib.lib import query1
