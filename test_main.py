@@ -98,16 +98,19 @@ def test_query1():
 def test_query2():
     query2(c)
 
-# if __name__ == "__main__":
-#     test_extract()
-#     test_load()
-#     c, conn = test_connect()
-#     test_create()
-#     test_insert()
-#     test_read()
-#     test_update_Shape_Leng()
-#     test_delete()
-#     test_query1()
-#     test_query2()
-#     conn.close()
-#     print("All passed!")
+def test_main():
+    test_extract()
+    test_load()
+    c, conn = test_connect()
+    test_create()
+    test_insert()
+    test_read()
+    test_update_Shape_Leng()
+    test_delete()
+    test_query1()
+    test_query2()
+    conn.close()
+    print("All passed!")
+
+if __name__ == "__main__":
+    test_main()
