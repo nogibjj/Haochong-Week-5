@@ -13,18 +13,15 @@ from mylib.lib import query2
 from mylib.lib import insert
 from mylib.lib import update_Shape_Leng
 from mylib.lib import delete
+import os
+import sqlite3
 
-def test_extract():
-    extract()
+if os.path.exists("test.db"):
+        os.remove("test.db")
 
-def test_load():
-    load()
+conn = sqlite3.connect('test.db')
+c = conn.cursor()
 
-def test_connect():
-    c, conn = connect()
-    return c, conn
-
-c, conn = connect()
 def test_create():
     create(c)
 
@@ -99,9 +96,11 @@ def test_query2():
     query2(c)
 
 def test_main():
-    test_extract()
-    test_load()
-    c, conn = test_connect()
+    # if os.path.exists("test.db"):
+    #     os.remove("test.db")
+
+    # conn = sqlite3.connect('test.db')
+    # c = conn.cursor()
     test_create()
     test_insert()
     test_read()
