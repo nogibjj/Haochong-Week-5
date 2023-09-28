@@ -1,19 +1,23 @@
 """
-Main cli or app entry point
+ETL-Query script
 """
 
-from mylib.calculator import add
-import click
+from mylib.extract import extract
+from mylib.transform_load import load
+from mylib.query import query
 
-#var=1;var=2
+# Extract
+print("Extracting data...")
+extract()
 
-@click.command("add")
-@click.argument("a", type=int)
-@click.argument("b", type=int)
-def add_cli(a, b):
-    click.echo(add(a, b))
+# Transform and load
+print("Transforming data...")
+load()
+
+# Query
+print("Querying data...")
+query()
 
 
 if __name__ == "__main__":
     # pylint: disable=no-value-for-parameter
-    add_cli()
