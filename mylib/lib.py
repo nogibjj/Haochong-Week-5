@@ -10,9 +10,8 @@ import os
 
 
 def extract(url="https://catalogue.data.wa.gov.au/dataset/f39087e2-2885-473e-bc62-ca610cd94340/resource/96c892f3-b387-410c-80d0-e4dcec68e6f2/download/25ktopomapseriesindex.csv", 
-            file_path="""/Users/xiahaochong/
-            Desktop/IDS 706 DES/
-            Haochong-Week-5/25ktopomapseriesindex.csv"""):
+            file_path="/Users/xiahaochong/Desktop/IDS 706 DES/"\
+            "Haochong-Week-5/25ktopomapseriesindex.csv"):
     """"Extract a url to a file path"""
     with requests.get(url) as r:
         with open(file_path, 'wb') as f:
@@ -24,9 +23,8 @@ Transforms and Loads data into the local SQLite3 database
 """
 
 #load the csv file and insert into a new sqlite3 database
-def load(dataset="""/Users/xiahaochong/
-         Desktop/IDS 706 DES/Haochong-Week-5/
-         25ktopomapseriesindex.csv"""):
+def load(dataset="/Users/xiahaochong/Desktop/IDS 706 DES/"\
+            "Haochong-Week-5/25ktopomapseriesindex.csv"):
     """"Transforms and Loads data into the local SQLite3 database"""
 
     #prints the full working directory and path
