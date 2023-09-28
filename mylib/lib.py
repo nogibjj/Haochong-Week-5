@@ -31,25 +31,65 @@ def load(dataset="/Users/xiahaochong/Desktop/IDS 706 DES/Haochong-Week-5/25ktopo
     payload = csv.reader(open(dataset, newline=''), delimiter=',')
     conn = sqlite3.connect('ktopomapseriesindexDB.db')
     c = conn.cursor()
-    c.execute("DROP TABLE IF EXISTS ktopomapseriesindexDB")
-    c.execute("CREATE TABLE ktopomapseriesindexDB (name_cap_2,num_rom_ca,Shape_Leng,Shape_Area)")
+    c.execute("DROP TABLE IF EXISTS indexs")
+    c.execute('''CREATE TABLE IF NOT EXISTS indexs (
+                name_cap_2 TEXT,
+                num_rom_ca TEXT PRIMARY KEY,
+                Shape_Leng INTEGER,
+                Shape_Area INTEGER
+            )''')
     #insert
-    c.executemany("INSERT INTO ktopomapseriesindexDB VALUES (?, ?, ?, ?)", payload)
+    c.executemany("INSERT INTO indexs VALUES (?, ?, ?, ?)", payload)
     conn.commit()
     conn.close()
     return "ktopomapseriesindexDB.db"
 
+"""CRUD"""
+
+def connect():
+    conn = sqlite3.connect('ktopomapseriesindexDB.db')
+    c = conn.cursor()
+    return c, conn
+
+def create(c):
+    # Connect to my DB
+    c.execute('''CREATE TABLE IF NOT EXISTS indexs (
+                name_cap_2 TEXT,
+                num_rom_ca TEXT PRIMARY KEY,
+                Shape_Leng INTEGER,
+                Shape_Area INTEGER
+            )''')
+    
+def insert(c, conn, name_cap_2, Shape_Leng, Shape_Area):
+    c.execute("INSERT INTO indexs (num_rom_ca, Shape_Leng, Shape_Area) VALUES (?, ?, ?)", (name_cap_2, Shape_Leng, Shape_Area))
+    conn.commit()
+
+def read(c):
+    c.execute("SELECT * FROM indexs")
+    indexs = c.fetchall()
+    for i in indexs:
+        print(f"name_cap_2: {i[0]}, num_rom_ca: {i[1]}, Shape_Leng: {i[2]}, Shape_Area: {i[3]}")
+
+def update_Shape_Leng(c, conn, Shape_Leng, num_rom_ca):
+    c.execute("UPDATE indexs SET Shape_Leng = ? WHERE  num_rom_ca = ?", (Shape_Leng, num_rom_ca))
+    conn.commit()
+
+def delete(c, conn, num_rom_ca):
+    c.execute("DELETE FROM indexs WHERE  num_rom_ca = ?", (num_rom_ca,))
+    conn.commit()
+
 """Query the database"""
 
-import sqlite3
+def query1(c):
+    # 1. Query to count the number of indexs in the table
+    c.execute("SELECT COUNT(*) FROM indexs")
+    count = c.fetchone()[0]
+    print(f"Total number of indexs: {count}")
 
-
-def query():
-    """Query the database for the top 5 rows of the GroceryDB table"""
-    conn = sqlite3.connect("ktopomapseriesindexDB.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM ktopomapseriesindexDB")
-    print("Top 5 rows of the ktopomapseriesindexDB table:")
-    print(cursor.fetchall())
-    conn.close()
-    return "Success"
+def query2(c):
+    # 2. Query to get Shape_Leng less than 56140
+    c.execute("SELECT * FROM indexs WHERE Shape_Leng < ?", (56140,))
+    q_indexs = c.fetchall()
+    print("indexs have Shape_Leng less than 56140:")
+    for i in q_indexs:
+        print(f"name_cap_2: {i[0]}, num_rom_ca: {i[1]}, Shape_Leng: {i[2]}, Shape_Area: {i[3]}")
