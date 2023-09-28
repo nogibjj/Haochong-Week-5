@@ -3,8 +3,6 @@ Test goes here
 
 """
 
-import sqlite3
-import os
 from mylib.lib import extract
 from mylib.lib import load
 from mylib.lib import connect
@@ -31,12 +29,6 @@ def test_create():
 
 def test_insert():
     insert(c, conn, "A", "key", 1, 1)
-    data_to_check = {
-        'name_cap_2': 'A',
-        'num_rom_ca': 'key',
-        'Shape_Leng': 1,
-        'Shape_Area': 1
-    }
     query = """
         SELECT * 
         FROM indexs 
@@ -48,11 +40,11 @@ def test_insert():
     """
 
     # Execute the query with the provided data
-    c.execute(query, (data_to_check['name_cap_2'], data_to_check['num_rom_ca'], data_to_check['Shape_Leng'], data_to_check['Shape_Area']))
+    c.execute(query, ('A', 'key', 1, 1))
 
     # Fetch the result
     result = c.fetchone()
-    assert result != None
+    assert result is not None
 
 def test_read():
     read(c)
@@ -60,12 +52,6 @@ def test_read():
 def test_update_Shape_Leng():
     insert(c, conn, "c", "keyc", 3, 3)
     update_Shape_Leng(c, conn, 4, "keyc")
-    data_to_check = {
-        'name_cap_2': 'c',
-        'num_rom_ca': 'keyc',
-        'Shape_Leng': 4,
-        'Shape_Area': 3
-    }
     query = """
         SELECT * 
         FROM indexs 
@@ -77,13 +63,13 @@ def test_update_Shape_Leng():
     """
 
     # Execute the query with the provided data
-    c.execute(query, (data_to_check['name_cap_2'], data_to_check['num_rom_ca'], data_to_check['Shape_Leng'], data_to_check['Shape_Area']))
+    c.execute(query, ('c', 'keyc', 4, 3))
 
     # Fetch the result
     result = c.fetchone()
     print("update:")
     print(result)
-    assert result != None
+    assert result is not None
 
 def test_delete():
     insert(c, conn, "B", "keyb", 2, 2)
@@ -105,11 +91,11 @@ def test_delete():
     """
 
     # Execute the query with the provided data
-    c.execute(query, (data_to_check['name_cap_2'], data_to_check['num_rom_ca'], data_to_check['Shape_Leng'], data_to_check['Shape_Area']))
+    c.execute(query, ('B', 'keyb', 2, 2))
 
     # Fetch the result
     result = c.fetchone()
-    assert result == None
+    assert result is None
 
 def test_query1():
     query1(c)
