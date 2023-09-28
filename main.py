@@ -27,20 +27,27 @@ if __name__ == "__main__":
 
 
        # CRUD operations
-    insert(c, conn, "A", 1, 1)
+    insert(c, conn, "B", "keyb", 2, 2)
+    insert(c, conn, "A", "key", 1, 1)
     
     print("Data after insertions:")
-    read(c)
+    indexs = read(c)
+    for i in indexs:
+        print(f"name_cap_2: {i[0]}, num_rom_ca: {i[1]}, Shape_Leng: {i[2]}, Shape_Area: {i[3]}")
     
     update_Shape_Leng(c, conn, 1, "I-NE")
     
     print("Data after updating I-NE's Shape_Leng:")
-    read(c)
+    indexs = read(c)
+    for i in indexs:
+        print(f"name_cap_2: {i[0]}, num_rom_ca: {i[1]}, Shape_Leng: {i[2]}, Shape_Area: {i[3]}")
     
     delete(c, conn, "I-SE")
     
     print("Data after deleting I-SE:")
-    read(c)
+    indexs = read(c)
+    for i in indexs:
+        print(f"name_cap_2: {i[0]}, num_rom_ca: {i[1]}, Shape_Leng: {i[2]}, Shape_Area: {i[3]}")
 
     # Query
     print("Querying data...")

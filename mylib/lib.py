@@ -60,15 +60,14 @@ def create(c):
                 Shape_Area INTEGER
             )''')
     
-def insert(c, conn, name_cap_2, Shape_Leng, Shape_Area):
-    c.execute("INSERT INTO indexs (num_rom_ca, Shape_Leng, Shape_Area) VALUES (?, ?, ?)", (name_cap_2, Shape_Leng, Shape_Area))
+def insert(c, conn, name_cap_2, num_rom_ca, Shape_Leng, Shape_Area):
+    c.execute("INSERT INTO indexs (name_cap_2, num_rom_ca, Shape_Leng, Shape_Area) VALUES (?, ?, ?, ?)", (name_cap_2, num_rom_ca, Shape_Leng, Shape_Area))
     conn.commit()
 
 def read(c):
     c.execute("SELECT * FROM indexs")
     indexs = c.fetchall()
-    for i in indexs:
-        print(f"name_cap_2: {i[0]}, num_rom_ca: {i[1]}, Shape_Leng: {i[2]}, Shape_Area: {i[3]}")
+    return indexs
 
 def update_Shape_Leng(c, conn, Shape_Leng, num_rom_ca):
     c.execute("UPDATE indexs SET Shape_Leng = ? WHERE  num_rom_ca = ?", (Shape_Leng, num_rom_ca))
