@@ -108,6 +108,10 @@ def query2(c):
               Shape_Area: {i[3]}""")
 ```
 
+### result:
+
+
+![Alt text](<截屏2023-09-28 下午1.20.58.png>)
 
 For the test, I didn't test for function like `connect`, since they are just for the connection. If they can't work, all other part won't be able to run, which means they are definitely fine.
 
