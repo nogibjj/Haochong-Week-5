@@ -84,6 +84,31 @@ def delete(c, conn, num_rom_ca):
     conn.commit()
 ```
 
+For the two queries:
+### query1
+```python
+def query1(c):
+    # 1. Query to count the number of indexs in the table
+    c.execute("SELECT COUNT(*) FROM indexs")
+    count = c.fetchone()[0]
+    print(f"Total number of indexs: {count}")
+```
+
+### query2
+```python
+def query2(c):
+    # 2. Query to get Shape_Leng less than 56140
+    c.execute("SELECT * FROM indexs WHERE Shape_Leng < ?", (56140,))
+    q_indexs = c.fetchall()
+    print("indexs have Shape_Leng less than 56140:")
+    for i in q_indexs:
+        print(f"""name_cap_2: {i[0]}, 
+              num_rom_ca: {i[1]}, 
+              Shape_Leng: {i[2]}, 
+              Shape_Area: {i[3]}""")
+```
+
+
 For the test, I didn't test for function like `connect`, since they are just for the connection. If they can't work, all other part won't be able to run, which means they are definitely fine.
 
 I write test in `test_main.py` for CRUD functions. I use function`fetchone()` to fetch the row I want, and then compare the result with `None` to see whether the operation happened. I got them all pass:
